@@ -1,0 +1,5 @@
+langchain-core
+langchain_community
+langchain-openai
+pytz
+pydantic
