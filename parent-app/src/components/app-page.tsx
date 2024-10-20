@@ -243,7 +243,7 @@ export function Page() {
   const fetchDailyActivities = async () => {
     const params = {
       TableName: DAILY_SUMMARY_TABLE_NAME,
-      Limit: 5,
+      Limit: 100,
       ScanIndexForward: false,
     };
 
