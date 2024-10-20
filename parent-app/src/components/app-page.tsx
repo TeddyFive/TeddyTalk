@@ -208,12 +208,16 @@ export function Page() {
   const fetchRecentActivities = async () => {
     const params = {
       TableName: CONVERSATION_TABLE_NAME,
-      Limit: 20,
-      ScanIndexForward: false,
+      KeyConditionExpression: "userId = :userId",
+      ExpressionAttributeValues: {
+        ":userId": "1", 
+      },
+      ScanIndexForward: false, 
+      Limit: 20
     };
-
+  
     try {
-      const result = await dynamoDb.scan(params).promise();
+      const result = await dynamoDb.query(params).promise();
       if (result.Items) {
         const activitiesWithSignedUrls = await Promise.all(
           result.Items.map(async (item) => {
@@ -229,11 +233,10 @@ export function Page() {
             return activity;
           })
         );
-        console.log("activitiesWithSignedUrls", activitiesWithSignedUrls);
         setActivities(activitiesWithSignedUrls);
       }
     } catch (error) {
-      console.error("Error fetching activities:", error);
+      console.error("Error fetching recent activities:", error);
     }
   };
 
